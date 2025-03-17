@@ -17,12 +17,34 @@
 */
 
 #include <iostream>
-#include <bits/stdc++.h>
+#include <vector>
 using namespace std;
-
 
 int main()
 {
-    cout<<"test"<<endl;
+    int n, k, a, b;
+    cin >> n;
+    vector<int> num(n);
+    vector<int> presum(n);
+    int psum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> num[i];
+        psum += num[i];
+        presum[i] = psum;
+    }
+    while (cin >> a >> b)
+    {
+        int sum;
+        if (a == 0)
+        {
+            sum = presum[b];
+        }
+        else
+        {
+            sum = presum[b] - presum[a - 1];
+        }
+        cout << sum << endl;
+    }
     return 0;
 }

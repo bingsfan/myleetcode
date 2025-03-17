@@ -24,26 +24,22 @@ using namespace std;
  */
 class Solution {
 public:
+/* 
+    大部分链表操作的问题，都偏向于添加一个虚拟头结点，这样不用对头结点做额外处理
+    所有原先head中的元素，加上虚拟头结点后都是同一类节点
+*/
     ListNode* removeElements(ListNode* head, int val) {
-        if(!head->next){
-            return head;
-        }
-        ListNode *p = head;
+        ListNode *dhead=new ListNode();
+        dhead->next=head;
+        ListNode *p=dhead;
         while(p->next){
             if(p->next->val==val){
-                ListNode *q = p->next;
-                p->next = q->next;
-                delete q;
+                p->next=p->next->next;
             }else{
                 p=p->next;
             }
         }
-        if(head->val == val){
-            ListNode *p = head->next;
-            delete head;
-            return p;
-        }
-        return head;
+        return dhead->next;
     }
 };
 // @lc code=end

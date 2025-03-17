@@ -22,21 +22,19 @@ public:
     
     MyLinkedList() {
         dhead=new LinkNode(0);
+        size=0;
     }
     
     int get(int index) {
-        if (index<0||index>size-1)
-        {
+        if(index<0||index>size-1){
             return -1;
         }
-        LinkNode *p=dhead;
-        int i=0;
-        while (p->next)
+        LinkNode *p = dhead->next;
+        int cnt=0;
+        while (cnt!=index)
         {
-            if(i==index){
-                break;
-            }
             p=p->next;
+            cnt++;
         }
         return p->val;
     }
@@ -65,18 +63,42 @@ public:
     void addAtIndex(int index, int val) {
         LinkNode *p = dhead;
         LinkNode *tmp = new LinkNode(val);
-        if (index<0||index>size-1)
+        if (index<0||index>size)
         {
             return;
         }
         if(index==size){
-            
+            while (p->next)
+            {
+                p=p->next;
+            }
+            tmp->next=p->next;
+            p->next=tmp;
+            size++;
+            return;
         }
-        
+        while (index--)
+        {
+            p=p->next;
+        }
+        tmp->next = p->next;
+        p->next = tmp;
+        size++;
+        return;
     }
     
     void deleteAtIndex(int index) {
-        
+        if (index < 0 || index > size-1)
+        {
+            return;
+        }
+        LinkNode *p = dhead;
+        while (index--)
+        {
+            p=p->next;
+        }
+        p->next=p->next->next;
+        size--;
     }
 };
 
