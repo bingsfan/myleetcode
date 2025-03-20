@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=257 lang=cpp
+ * @lc app=leetcode.cn id=98 lang=cpp
  *
- * [257] 二叉树的所有路径
+ * [98] 验证二叉搜索树
  */
 
 // @lc code=start
@@ -18,7 +18,7 @@
  */
 class Solution {
 public:
-    vector<string> binaryTreePaths(TreeNode* root) {
+    bool isValidBST(TreeNode* root) {
         
     }
 };
