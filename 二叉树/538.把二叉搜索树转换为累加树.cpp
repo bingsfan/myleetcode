@@ -16,25 +16,25 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-  void travel(TreeNode *node, int &sum)
-  {
-      if (node == nullptr)
-      {
-          return;
-      }
-      travel(node->right, sum);
-      sum += node->val;
-      node->val = sum;
-      travel(node->left, sum);
-  }
-  TreeNode *convertBST(TreeNode *root)
-  {
-      int sum = 0;
-      travel(root, sum);
-      return root;
-  }
+    void travel(TreeNode *node, int &sum)
+    {
+        if (node == nullptr)
+        {
+            return;
+        }
+        travel(node->right, sum);
+        sum += node->val;
+        node->val = sum;
+        travel(node->left, sum);
+    }
+    TreeNode *convertBST(TreeNode *root)
+    {
+        int sum = 0;
+        travel(root, sum);
+        return root;
+    }
 };
 // @lc code=end
-
