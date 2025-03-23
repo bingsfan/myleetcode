@@ -30,6 +30,7 @@ public:
         {
             return nullptr;
         }
+        // 这两个if是用来处理根节点的
         if (root->val > high)
         {
             return trimBST(root->left, low, high);
@@ -38,7 +39,7 @@ public:
         {
             return trimBST(root->right, low, high);
         }
-        // 如果根节点没事，还要判断左右子树
+        // 如果根节点没事，还要判断左右子树，这里体现了前序
         root->left = trimBST(root->left, low, high);
         root->right = trimBST(root->right, low, high);
         return root;
