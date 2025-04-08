@@ -8,8 +8,10 @@
 class Solution
 {
   public:
-    /*
-    max(1+dp[j],dp[i]);这里求最大值求的是1+dp[j]的最大值
+/*
+    要求最长递增子序列，子序列是不连续的
+    定义dp[i]为以nums[i]为结尾的最长递增子序列的长度
+    如果nums[i]>nums[j],dp[i]=1 + dp[j],这个过程要重复多次，因此要留下最大的dp[i]
 */
     int lengthOfLIS(vector<int> &nums)
     {

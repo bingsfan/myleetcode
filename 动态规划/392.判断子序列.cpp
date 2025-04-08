@@ -39,24 +39,27 @@ class Solution
         }
         return dp[s.size()][t.size()];
     } */
-    bool isSubsequence(string s, string t)
-    {
-        vector<vector<int>> dp(101, vector<int>(10001, 0));
-        for (int i = 1; i <= s.size(); i++)
-        {
-            for (int j = 1; j <= t.size(); j++)
-            {
-                if (s[i - 1] == t[j - 1])
-                {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                }
-                else
-                {
-                    dp[i][j] = dp[i][j - 1];
-                }
-            }
-        }
-        return dp[s.size()][t.size()] == s.size();
-    }
+	/* 
+		直接用之前求公共子序列的代码，求出s和t的最长公共子序列的长度，看是否和s的长度相等
+	*/
+	bool isSubsequence(string s, string t) {
+		int n1 = s.size();
+		int n2 = t.size();
+		vector<vector<int>> dp(n1+1,vector<int>(n2+1,0));
+		int res=0;
+		for(int i=1;i<=n1;i++){
+			for(int j=1;j<=n2;j++){
+				if(s[i-1]==t[j-1]){
+					dp[i][j]=1+dp[i-1][j-1];
+				}else{
+					dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+				}
+				if(dp[i][j]>res){
+					res=dp[i][j];
+				}
+			}
+		}
+		return res==n1;
+	}
 };
 // @lc code=end
