@@ -9,7 +9,7 @@ class Solution {
 public:
 	vector<int> spiralOrder(vector<vector<int>> &matrix) {
 		int n = matrix.size(), m = matrix[0].size();
-		int left = 0, right = m - 1, top = 0, bottom = n - 1;
+		int left = 0, top = 0, right = m - 1, bottom = n - 1;
 		vector<int> res;
 		while(left <= right && top <= bottom) {
 			for(int j = left; j <= right; j++) {
@@ -20,17 +20,15 @@ public:
 				res.push_back(matrix[i][right]);
 			}
 			right--;
-			// 从右到左
 			if(top <= bottom) {
-				for(int j = right; j >= left; --j)
+				for(int j = right; j >= left; j--)
 					res.push_back(matrix[bottom][j]);
 				bottom--;
 			}
-
-			// 从下到上
 			if(left <= right) {
-				for(int i = bottom; i >= top; --i)
+				for(int i = bottom; i >= top; i--) {
 					res.push_back(matrix[i][left]);
+				}
 				left++;
 			}
 		}

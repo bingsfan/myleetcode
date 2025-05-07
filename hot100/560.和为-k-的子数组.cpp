@@ -8,20 +8,22 @@
 class Solution {
 public:
 	int subarraySum(vector<int> &nums, int k) {
-		// 要用前缀和解决，我先求出前缀和把，用map存储，前缀和及其频率
-		unordered_map<int, int> umap;
-		int sum = 0;
-		umap[0] = 1;
-		// 意思是前缀和为0的出现了一次，因为这代表着sum==k了
-		int res = 0;
-		int preSum;
-		for(auto &num : nums) {
-			sum += num;
-			preSum = sum - k;
-			if(umap.count(preSum)) {
-				res += umap[preSum];
+		// 用unordered_map来存储到当前元素之前的前缀和和频率
+		int n = nums.size();
+		unordered_map<int, int> umap_sum;
+		umap_sum[0] = 1;
+		// !这是为了解决如果有一个元素的值恰好等于k 的情况
+		int curSum = 0;
+		int res	   = 0;
+		for(int i = 0; i < n; i++) {
+			curSum += nums[i];
+			// !注意这里是cursum-k，cursum会不断变大
+			// 可以想成，总长为cursum，如果要有一个和为k的子数组，我需要另一个更小的前缀和，也就是curSum-k，定义为presum
+			int presum = curSum - k;
+			if(umap_sum.count(presum)) {
+				res += umap_sum[presum];
 			}
-			umap[sum]++;
+			umap_sum[curSum]++;
 		}
 		return res;
 	}

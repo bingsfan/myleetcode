@@ -8,21 +8,20 @@
 class Solution {
 public:
 	vector<int> twoSum(vector<int> &nums, int target) {
-		// 使用一个map，存储数值和下标，因为最后返回要的是下标
 		unordered_map<int, int> umap;
 		vector<int> res;
-		int n = nums.size();
-		for(int i = 0; i < n; i++) {
-			umap[nums[i]] = i;
-		}
-		for(int i = 0; i < n; i++) {
-			int a = nums[i];
-			int b = target - nums[i];
-			if(umap.count(b) && i != umap[b]) {
-				return { i, umap[b] };
+		// key一定是下标，因为这样才唯一
+		// !不要先hash，应该跟前缀和一样，一遍添加一遍计算，nums里面的值重复的话，map位置会被覆盖
+		for(int i = 0; i < nums.size(); i++) {
+			int a = nums[i], b = target - a;
+			if(umap.count(b)) {
+				res = { umap[b], i };
+				break;
+			} else {
+				umap[a] = i;
 			}
 		}
-		return {};
+		return res;
 	}
 };
 // @lc code=end

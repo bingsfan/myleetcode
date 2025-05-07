@@ -8,16 +8,16 @@
 class Solution {
 public:
 	bool searchMatrix(vector<vector<int>> &matrix, int target) {
-		int m = matrix.size(), n = matrix[0].size();
-		int i = 0, j = n - 1;
-		// 从右上角或者左下角开始走，往下走会变大，往左走会变小
-		while(i < m && j >= 0) {
+		// 从左下角开始搜索，这样能保证往右边是大，往上是小
+		int n = matrix.size(), m = matrix[0].size();
+		int i = n - 1, j = 0;
+		while(i < n && j < m && i >= 0 && j >= 0) {
 			if(matrix[i][j] == target) {
 				return true;
-			} else if(matrix[i][j] < target) {
-				i++;
+			} else if(matrix[i][j] > target) {
+				i--;
 			} else {
-				j--;
+				j++;
 			}
 		}
 		return false;

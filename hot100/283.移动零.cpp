@@ -8,7 +8,7 @@
 class Solution {
 public:
 	void moveZeroes(vector<int> &nums) {
-		// 使用快慢指针，也就是双指针方法
+		// 快指针如果遇到非0，nums[slow]=nums[fast]
 		int slow = 0;
 		int n	 = nums.size();
 		for(int fast = 0; fast < n; fast++) {
@@ -19,6 +19,7 @@ public:
 		while(slow < n) {
 			nums[slow++] = 0;
 		}
+		return;
 	}
 };
 // @lc code=end

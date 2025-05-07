@@ -8,16 +8,17 @@
 class Solution {
 public:
 	void rotate(vector<vector<int>> &matrix) {
-		// 先将矩阵转置,再对每一行reverse
-		int n = matrix.size();
+		// 只需要将对矩阵转置,再每一行reverse就行了
+		int n = matrix.size(), m = matrix[0].size();
 		for(int i = 0; i < n; i++) {
-			for(int j = i + 1; j < n; j++) {
+			for(int j = 0; j < i; j++) {
 				swap(matrix[i][j], matrix[j][i]);
 			}
 		}
 		for(int i = 0; i < n; i++) {
 			reverse(matrix[i].begin(), matrix[i].end());
 		}
+		return;
 	}
 };
 // @lc code=end

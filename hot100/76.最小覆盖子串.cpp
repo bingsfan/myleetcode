@@ -7,46 +7,40 @@
 // @lc code=start
 class Solution {
 public:
-	string minWindow(string s, string t) {
-		unordered_map<char, int> need, window;
-		for(char c : t) {
-			need[c]++;
-		}
-		int left = 0, right = 0;
-		int valid = 0;
-		int len	  = INT_MAX;
-		int start = 0;
-		for(; right < s.size(); right++) {
-			char c = s[right];
-			// 更新两个map
-			if(need.count(c)) {
-				window[c]++;
-				if(window[c] == need[c]) {
-					valid++;
-				}
-			} else {
-				window[c]++;
-			}
-			// 判断是否需要移动left
-			while(valid == need.size()) {
-				if(right - left + 1 < len) {
-					len	  = right - left + 1;
-					start = left;
-				}
-				char d = s[left];
-				left++;
-				if(need.count(d)) {
-					if(window[d] == need[d]) {
-						valid--;
-					}
-					window[d]--;
-				} else {
-					window[d]--;
-				}
-			}
-		}
-		return len == INT_MAX ? "" : s.substr(start, len);
+string minWindow(string s, string t) {
+	unordered_map<char, int> s_hash, t_hash;
+	int n = s.size(), m = t.size();
+	for(auto &c : t) {
+		t_hash[c]++;
 	}
+	int left = 0, right = 0;
+	int valid = 0;
+	int len	  = INT_MAX;
+	int start = 0;
+	for(; right < n; right++) {
+		char c = s[right];
+		s_hash[c]++;
+		if(t_hash.count(c) && s_hash[c] == t_hash[c]) {
+			valid++;
+		}
+		while(valid == t_hash.size()) {
+			if(right - left + 1 < len) {
+				len	  = right - left + 1;
+				start = left;
+			}
+			char d = s[left];
+			left++;
+			if(t_hash.count(d) && s_hash[d] == t_hash[d]) {
+				valid--;
+			}
+			s_hash[d]--;
+			if(s_hash[d] == 0) {
+				s_hash.erase(d);
+			}
+		}
+	}
+	return len == INT_MAX ? "" : s.substr(start, len);
+}
 };
 // @lc code=end
 

@@ -8,12 +8,13 @@
 class Solution {
 public:
 	void rotate(vector<int> &nums, int k) {
-		// 先反转整个数组，再反转两个子数组
-        int n = nums.size();
-        k=k%n;
+		// 先对整个数组reverse，然后分两块reverse
+        // !注意要先取模，k可能大于nums的长度
+        k=k%(nums.size());
 		reverse(nums.begin(), nums.end());
 		reverse(nums.begin(), nums.begin() + k);
 		reverse(nums.begin() + k, nums.end());
+		return;
 	}
 };
 // @lc code=end
