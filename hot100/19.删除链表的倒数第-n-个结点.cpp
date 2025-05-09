@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=2 lang=cpp
+ * @lc app=leetcode.cn id=19 lang=cpp
  *
- * [2] 两数相加
+ * [19] 删除链表的倒数第 N 个结点
  */
 
 // @lc code=start
@@ -17,26 +17,21 @@
  */
 class Solution {
 public:
-	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+	ListNode *removeNthFromEnd(ListNode *head, int n) {
 		ListNode *dhead = new ListNode(0);
-		ListNode *cur	= dhead;
-		int carry		= 0;
-		while(l1 || l2 || carry) {
-			int sum = carry;
-			if(l1) {
-				sum += l1->val;
-				l1 = l1->next;
-			}
-			if(l2) {
-				sum += l2->val;
-				l2 = l2->next;
-			}
-			carry	  = sum / 10;
-			cur->next = new ListNode(sum % 10);
-			cur		  = cur->next;
+		dhead->next		= head;
+		ListNode *fast	= dhead;
+		ListNode *slow	= dhead;
+		int k			= n + 1;
+		while(k--) {
+			fast = fast->next;
 		}
+		while(fast) {
+			fast = fast->next;
+			slow = slow->next;
+		}
+		slow->next = slow->next->next;
 		return dhead->next;
 	}
 };
 // @lc code=end
-

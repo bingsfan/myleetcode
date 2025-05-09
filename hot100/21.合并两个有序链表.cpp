@@ -18,27 +18,25 @@
 class Solution {
 public:
 	ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) {
-		ListNode *dhead = new ListNode(-1);
-		ListNode *s		= dhead;
-		ListNode *p		= list1;
-		ListNode *q		= list2;
-		while(p && q) {
-			// !while里面改成s->next=p; p=p->next;if完了之后s=s->next;
-			if(p->val <= q->val) {
-				s->next = p;
-				s		= p;
-				p		= p->next;
+		ListNode *dhead = new ListNode(0);
+		ListNode *tail	= dhead;
+		ListNode *l1	= list1;
+		ListNode *l2	= list2;
+		while(l1 && l2) {
+			if(l1->val < l2->val) {
+				tail->next = l1;
+				l1		   = l1->next;
 			} else {
-				s->next = q;
-				s		= q;
-				q		= q->next;
+				tail->next = l2;
+				l2		   = l2->next;
 			}
+			tail = tail->next;
 		}
-		if(p) {	   // 如果弄完p还有的话
-			s->next = p;
+		if(l1) {
+			tail->next = l1;
 		}
-		if(q) {
-			s->next = q;
+		if(l2) {
+			tail->next = l2;
 		}
 		return dhead->next;
 	}

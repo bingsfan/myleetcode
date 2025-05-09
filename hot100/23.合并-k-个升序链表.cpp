@@ -22,12 +22,12 @@ public:
 			return a->val > b->val;
 		}
 	};
+
 	ListNode *mergeKLists(vector<ListNode *> &lists) {
-		// 使用小顶堆，每次将当前k个链表的头结点放进去比较
-		// 每次取出最小节点，然后把这个节点所在链表的下一个节点也放进去
 		priority_queue<ListNode *, vector<ListNode *>, mycompare> pq;
+		int k = lists.size();
 		for(auto &node : lists) {
-            if(node){
+			if(node) {
 				pq.push(node);
 			}
 		}

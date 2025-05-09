@@ -17,34 +17,34 @@
  */
 class Solution {
 public:
-	bool isPalindrome(ListNode *head) {
-		// 用快慢指针找中间节点，然后反转对比，最后将链表恢复原状
-		if(!head || !head->next) {
-			return true;
+	ListNode *reverseList(ListNode *head) {
+		ListNode *prev = nullptr;
+		ListNode *p	   = head;
+		while(p) {
+			ListNode *tmp = p->next;
+			p->next		  = prev;
+			prev		  = p;
+			p			  = tmp;
 		}
-		// 找中点
-		ListNode *slow = head;
-		ListNode *fast = head;
+		return prev;
+	}
+	bool isPalindrome(ListNode *head) {
+		// 先找到中点，如果链表的长是奇数会直接找到中点，如果是偶数会找到靠后的中点
+		ListNode *slow, *fast;
+		slow = head, fast = head;
 		while(fast && fast->next) {
 			slow = slow->next;
 			fast = fast->next->next;
 		}
-		// 翻转后半段链表
-		ListNode *prev = nullptr;
-		while(slow) {
-			ListNode *tmp = slow->next;
-			slow->next	  = prev;
-			prev		  = slow;
-			slow		  = tmp;
-		}
-		ListNode *left	= head;
-		ListNode *right = prev;
-		while(right) {
-			if(left->val != right->val) {
+		// slow就是中点或者靠后的中点
+		ListNode *r = reverseList(slow);
+		ListNode *l = head;
+		while(r) {
+			if(l->val != r->val) {
 				return false;
 			}
-			left  = left->next;
-			right = right->next;
+			l = l->next;
+			r = r->next;
 		}
 		return true;
 	}

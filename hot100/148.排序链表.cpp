@@ -17,10 +17,11 @@
  */
 class Solution {
 public:
-	ListNode *merge(ListNode *l1, ListNode *l2) {
-		ListNode dummy(0);
-		ListNode *tail = &dummy;
-
+	ListNode *merge(ListNode *list1, ListNode *list2) {
+		ListNode *dhead = new ListNode(0);
+		ListNode *tail	= dhead;
+		ListNode *l1	= list1;
+		ListNode *l2	= list2;
 		while(l1 && l2) {
 			if(l1->val < l2->val) {
 				tail->next = l1;
@@ -31,31 +32,31 @@ public:
 			}
 			tail = tail->next;
 		}
-
-		if(l1)
+		if(l1) {
 			tail->next = l1;
-		if(l2)
+		}
+		if(l2) {
 			tail->next = l2;
-
-		return dummy.next;
+		}
+		return dhead->next;
 	}
 	ListNode *sortList(ListNode *head) {
-		if(head == nullptr || head->next == nullptr) {
+		// 归并排序
+		if(head == nullptr||head->next==nullptr) {
 			return head;
 		}
-		// 找中点
 		ListNode *slow = head;
 		ListNode *fast = head->next;
+		// 找中点
 		while(fast && fast->next) {
 			slow = slow->next;
 			fast = fast->next->next;
 		}
-		// 分成两个链表
-		ListNode *mid = slow->next;
-		slow->next	  = nullptr;
-		// 递归
-		ListNode *left	= sortList(head);
-		ListNode *right = sortList(mid);
+		ListNode *r		= slow->next;
+		ListNode *l		= head;
+		slow->next		= nullptr;
+		ListNode *left	= sortList(l);
+		ListNode *right = sortList(r);
 		return merge(left, right);
 	}
 };

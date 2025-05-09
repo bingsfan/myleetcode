@@ -17,22 +17,22 @@
  */
 class Solution {
 public:
-	ListNode *reverse(ListNode *head) {
+	ListNode *reverseList(ListNode *head) {
 		ListNode *prev = nullptr;
-		ListNode *cur  = head;
-		while(cur) {
-			ListNode *tmp = cur->next;
-			cur->next	  = prev;
-			prev		  = cur;
-			cur			  = tmp;
+		ListNode *p	   = head;
+		while(p) {
+			ListNode *tmp = p->next;
+			p->next		  = prev;
+			prev		  = p;
+			p			  = tmp;
 		}
 		return prev;
 	}
 	ListNode *reverseKGroup(ListNode *head, int k) {
-		if(head == nullptr || k == 1) {
+		if(k == 1) {
 			return head;
 		}
-		ListNode *dhead = new ListNode(-1);
+		ListNode *dhead = new ListNode(0);
 		dhead->next		= head;
 		ListNode *pre	= dhead;
 		ListNode *end	= dhead;
@@ -43,14 +43,14 @@ public:
 			if(end == nullptr) {
 				break;
 			}
+			// 开始反转
 			ListNode *start = pre->next;
 			ListNode *next	= end->next;
 			end->next		= nullptr;
-			pre->next		= reverse(start);
+			pre->next		= reverseList(start);
 			start->next		= next;
-			// 移动end和pre，开始下一轮
-			pre = start;
-			end = start;
+			pre				= start;
+			end				= start;
 		}
 		return dhead->next;
 	}

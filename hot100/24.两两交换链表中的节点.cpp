@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=2 lang=cpp
+ * @lc app=leetcode.cn id=24 lang=cpp
  *
- * [2] 两数相加
+ * [24] 两两交换链表中的节点
  */
 
 // @lc code=start
@@ -17,23 +17,18 @@
  */
 class Solution {
 public:
-	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+	ListNode *swapPairs(ListNode *head) {
+		// 要对头结点有操作，所以需要虚拟头结点
 		ListNode *dhead = new ListNode(0);
-		ListNode *cur	= dhead;
-		int carry		= 0;
-		while(l1 || l2 || carry) {
-			int sum = carry;
-			if(l1) {
-				sum += l1->val;
-				l1 = l1->next;
-			}
-			if(l2) {
-				sum += l2->val;
-				l2 = l2->next;
-			}
-			carry	  = sum / 10;
-			cur->next = new ListNode(sum % 10);
-			cur		  = cur->next;
+		dhead->next		= head;
+		ListNode *p		= dhead;
+		while(p->next && p->next->next) {
+			ListNode *q = p->next;
+			ListNode *r = p->next->next;
+			p->next		= r;
+			q->next		= r->next;
+			r->next		= q;
+			p			= p->next->next;
 		}
 		return dhead->next;
 	}
