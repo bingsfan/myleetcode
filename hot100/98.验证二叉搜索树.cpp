@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=230 lang=cpp
+ * @lc app=leetcode.cn id=98 lang=cpp
  *
- * [230] 二叉搜索树中第 K 小的元素
+ * [98] 验证二叉搜索树
  */
 
 // @lc code=start
@@ -18,23 +18,31 @@
  */
 class Solution {
 public:
-/* 	vector<int> vecTree230;
-	void travel_230(TreeNode *node) {
+/* 	vector<int> vecTree;
+	void travel_98(TreeNode *node) {
 		if(node == nullptr) {
 			return;
 		}
-		travel_230(node->left);
-		vecTree230.push_back(node->val);
-		travel_230(node->right);
+		travel_98(node->left);
+		vecTree.push_back(node->val);
+		travel_98(node->right);
 	}
-	int kthSmallest(TreeNode *root, int k) {
-		travel_230(root);
-		return vecTree230[k - 1];
+	bool isValidBST(TreeNode *root) {
+		travel_98(root);
+		for(int i = 1; i < vecTree.size(); i++) {
+			if(vecTree[i] <= vecTree[i - 1]) {
+				return false;
+			}
+		}
+		return true;
 	} */
-	int kthSmallest(TreeNode *root, int k) {
+	bool isValidBST(TreeNode *root) {
+		if(root == nullptr) {
+			return true;
+		}
 		stack<TreeNode *> st;
 		st.push(root);
-		int res = 0;
+		int64_t prev = static_cast<int64_t> INT_MIN - 1;
 		while(!st.empty()) {
 			TreeNode *top = st.top();
 			if(top) {
@@ -46,17 +54,16 @@ public:
 				if(top->left)
 					st.push(top->left);
 			} else {
-				k--;
 				st.pop();
 				top = st.top();
-				res = top->val;
-				st.pop();
-				if(k == 0) {
-					break;
+				if(top->val <= prev) {
+					return false;
 				}
+				prev = top->val;
+				st.pop();
 			}
 		}
-		return res;
+		return true;
 	}
 };
 // @lc code=end

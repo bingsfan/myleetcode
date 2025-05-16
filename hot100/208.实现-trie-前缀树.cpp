@@ -6,43 +6,54 @@
 
 // @lc code=start
 class Trie {
+private:
+	struct TrieNode {
+		TrieNode *next[26];
+		bool isEnd;
+		TrieNode() {
+			isEnd = false;
+			memset(next, 0, sizeof(next));
+		}
+	};
+
 public:
-	bool isEnd;
-	Trie *next[26];
+	TrieNode *root;
 	Trie() {
-		isEnd = false;
-		memset(next, 0, sizeof(next));
+		root = new TrieNode();
 	}
 
 	void insert(string word) {
-		Trie *node = this;
-		for(char c : word) {
-			if(node->next[c - 'a'] == nullptr) {
-				node->next[c - 'a'] = new Trie();
+		TrieNode *cur = root;
+		for(auto &c : word) {
+			int idx = c - 'a';
+			if(cur->next[idx] == nullptr) {
+				cur->next[idx] = new TrieNode;
 			}
-			node = node->next[c - 'a'];
+			cur = cur->next[idx];
 		}
-		node->isEnd = true;
+		cur->isEnd = true;
 	}
 
 	bool search(string word) {
-		Trie *node = this;
-		for(char c : word) {
-			node = node->next[c - 'a'];
-			if(node == nullptr) {
+		TrieNode *cur = root;
+		for(auto &c : word) {
+			int idx = c - 'a';
+			if(cur->next[idx] == nullptr) {
 				return false;
 			}
+			cur = cur->next[idx];
 		}
-		return node->isEnd;
+		return cur->isEnd;
 	}
 
 	bool startsWith(string prefix) {
-		Trie *node = this;
-		for(char c : prefix) {
-			node = node->next[c - 'a'];
-			if(node == nullptr) {
+		TrieNode *cur = root;
+		for(auto &c : prefix) {
+			int idx = c - 'a';
+			if(cur->next[idx] == nullptr) {
 				return false;
 			}
+			cur = cur->next[idx];
 		}
 		return true;
 	}

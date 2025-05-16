@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=199 lang=cpp
+ * @lc app=leetcode.cn id=102 lang=cpp
  *
- * [199] 二叉树的右视图
+ * [102] 二叉树的层序遍历
  */
 
 // @lc code=start
@@ -18,25 +18,27 @@
  */
 class Solution {
 public:
-	vector<int> rightSideView(TreeNode *root) {
-		// 层序遍历，得到每一层的最后一个
-		vector<int> res;
+	vector<vector<int>> levelOrder(TreeNode *root) {
+		queue<TreeNode *> q;
+		vector<vector<int>> res;
+		vector<int> path;
 		if(root == nullptr) {
 			return res;
 		}
-		queue<TreeNode *> que;
-		que.push(root);
-		while(!que.empty()) {
-			res.push_back(que.back()->val);
-			int size = que.size();
-			for(int i = 0; i < size; i++) {
-				TreeNode *top = que.front();
-				que.pop();
+		q.push(root);
+		while(!q.empty()) {
+			int que_size = q.size();
+			for(int i = 0; i < que_size; i++) {
+				TreeNode *top = q.front();
+				q.pop();
 				if(top->left)
-					que.push(top->left);
+					q.push(top->left);
 				if(top->right)
-					que.push(top->right);
+					q.push(top->right);
+				path.push_back(top->val);
 			}
+			res.push_back(path);
+			path.clear();
 		}
 		return res;
 	}

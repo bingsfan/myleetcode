@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=543 lang=cpp
+ * @lc app=leetcode.cn id=104 lang=cpp
  *
- * [543] 二叉树的直径
+ * [104] 二叉树的最大深度
  */
 
 // @lc code=start
@@ -18,20 +18,16 @@
  */
 class Solution {
 public:
-	int res;
-	int height_543(TreeNode *node) {
+	int height(TreeNode *node) {
 		if(node == nullptr) {
 			return 0;
 		}
-		int l = height_543(node->left);
-		int r = height_543(node->right);
-		res	  = max(res, l + r);
+		int l = height(node->left);
+		int r = height(node->right);
 		return 1 + max(l, r);
 	}
-	int diameterOfBinaryTree(TreeNode *root) {
-		res = 0;
-		height_543(root);
-		return res;
+	int maxDepth(TreeNode *root) {
+		return height(root);
 	}
 };
 // @lc code=end

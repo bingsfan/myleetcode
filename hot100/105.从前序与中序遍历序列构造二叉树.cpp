@@ -18,29 +18,38 @@
  */
 class Solution {
 public:
-	// 从遍历顺序上说是前序遍历，要先在preorder中找根节点，然后去划分inorder，递归处理左右子树
-	TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
-		if(preorder.size() == 0) {
+	TreeNode *mybuild(vector<int> &preorder, vector<int> &inorder, int pl, int pr, int il,
+					  int ir) {
+		if(pl > pr || il > ir) {
 			return nullptr;
 		}
-		int rootVal	   = preorder[0];
+		int rootVal	   = preorder[pl];
 		TreeNode *root = new TreeNode(rootVal);
-		int index	   = 0;
-		for(int i = 0; i < inorder.size(); i++) {
+		int pivot;
+		for(int i = il; i <= ir; i++) {
 			if(inorder[i] == rootVal) {
-				index = i;
+				pivot = i;
 				break;
 			}
 		}
-		// 找到了划分点，先去划分中序,左闭右开区间
-		vector<int> l_in(inorder.begin(), inorder.begin() + index);
-		vector<int> r_in(inorder.begin() + index + 1, inorder.end());
-		vector<int> l_pre(preorder.begin() + 1, preorder.begin() + 1 + l_in.size());
-		vector<int> r_pre(preorder.begin() + 1 + l_in.size(), preorder.end());
-		// 构建左右子树
-		root->left	= buildTree(l_pre, l_in);
-		root->right = buildTree(r_pre, r_in);
+		// 构建左子树
+		int leftSize  = pivot - il;
+		int rightSize = ir - pivot;
+		int leftPl	  = pl + 1;
+		int leftPr	  = leftPl + leftSize - 1;
+		int leftIl	  = il;
+		int leftIr	  = pivot - 1;
+		root->left	  = mybuild(preorder, inorder, leftPl, leftPr, leftIl, leftIr);
+		// 构建右子树
+		int rightPl = leftPr + 1;
+		int rightPr = pr;
+		int rightIl = pivot + 1;
+		int rightIr = ir;
+		root->right = mybuild(preorder, inorder, rightPl, rightPr, rightIl, rightIr);
 		return root;
+	}
+	TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+		return mybuild(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
 	}
 };
 // @lc code=end

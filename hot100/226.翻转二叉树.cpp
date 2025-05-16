@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=543 lang=cpp
+ * @lc app=leetcode.cn id=226 lang=cpp
  *
- * [543] 二叉树的直径
+ * [226] 翻转二叉树
  */
 
 // @lc code=start
@@ -18,20 +18,14 @@
  */
 class Solution {
 public:
-	int res;
-	int height_543(TreeNode *node) {
-		if(node == nullptr) {
-			return 0;
+	TreeNode *invertTree(TreeNode *root) {
+		if(root == nullptr) {
+			return nullptr;
 		}
-		int l = height_543(node->left);
-		int r = height_543(node->right);
-		res	  = max(res, l + r);
-		return 1 + max(l, r);
-	}
-	int diameterOfBinaryTree(TreeNode *root) {
-		res = 0;
-		height_543(root);
-		return res;
+		swap(root->left, root->right);
+		root->left	= invertTree(root->left);
+		root->right = invertTree(root->right);
+		return root;
 	}
 };
 // @lc code=end

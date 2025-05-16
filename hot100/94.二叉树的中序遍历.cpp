@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=114 lang=cpp
+ * @lc app=leetcode.cn id=94 lang=cpp
  *
- * [114] 二叉树展开为链表
+ * [94] 二叉树的中序遍历
  */
 
 // @lc code=start
@@ -18,33 +18,45 @@
  */
 class Solution {
 public:
-	void flatten(TreeNode *root) {
-		if(root == nullptr) {
+	vector<int> res;
+	void travel_94(TreeNode *node) {
+		if(node == nullptr) {
 			return;
 		}
+		travel_94(node->left);
+		res.push_back(node->val);
+		travel_94(node->right);
+	}
+	vector<int> inorderTraversal(TreeNode *root) {
+		travel_94(root);
+		return res;
+	}
+	// 迭代法
+	vector<int> inorderTraversal_2(TreeNode *root) {
+		vector<int> res;
+		// 用栈来完成迭代，中序：左中右，那入栈就是右中左
 		stack<TreeNode *> st;
-		st.push(root);
+		if(root) {
+			st.push(root);
+		}
 		while(!st.empty()) {
 			TreeNode *top = st.top();
 			if(top != nullptr) {
 				st.pop();
 				if(top->right)
 					st.push(top->right);
-				if(top->left)
-					st.push(top->left);
 				st.push(top);
 				st.push(nullptr);
+				if(top->left)
+					st.push(top->left);
 			} else {
 				st.pop();
 				top = st.top();
 				st.pop();
-				top->left = nullptr;
-				if(!st.empty()) {
-					top->right = st.top();
-				}
+				res.push_back(top->val);
 			}
 		}
-		return;
+		return res;
 	}
 };
 // @lc code=end

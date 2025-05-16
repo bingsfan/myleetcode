@@ -18,23 +18,22 @@
  */
 class Solution {
 public:
-	int dfs(TreeNode *node, uint64_t current_sum, int target,
-			unordered_map<uint64_t, int> &pre_sum_count) {
+	unordered_map<int64_t, int> preSum;
+	int dfs(TreeNode *node, int64_t curSum, int target) {
 		if(node == nullptr) {
 			return 0;
 		}
-		current_sum += node->val;
-		int res = pre_sum_count[current_sum - target];
-		pre_sum_count[current_sum]++;
-		res += dfs(node->left, current_sum, target, pre_sum_count);
-		res += dfs(node->right, current_sum, target, pre_sum_count);
-		pre_sum_count[current_sum]--;
+		curSum += node->val;
+		int res = preSum[curSum - target];
+		preSum[curSum]++;
+		res += dfs(node->left, curSum, target);
+		res += dfs(node->right, curSum, target);
+		preSum[curSum]--;
 		return res;
 	}
 	int pathSum(TreeNode *root, int targetSum) {
-		unordered_map<uint64_t, int> prefix_sum_count;	  // 用于记录路径和出现的次数
-		prefix_sum_count[0] = 1;					 // 初始化，路径和为0的次数为1
-		return dfs(root, 0, targetSum, prefix_sum_count);
+		preSum[0] = 1;
+		return dfs(root, 0, targetSum);
 	}
 };
 // @lc code=end

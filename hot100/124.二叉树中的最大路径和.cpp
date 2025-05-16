@@ -18,25 +18,20 @@
  */
 class Solution {
 public:
-	int maxSum = INT_MIN;
-
-	int dfs(TreeNode *node) {
-		if(!node)
+	int maxRes = INT_MIN;
+	int gain(TreeNode *node) {
+		if(node == nullptr) {
 			return 0;
-
-		int left  = max(0, dfs(node->left));	 // 左子树最大贡献
-		int right = max(0, dfs(node->right));	 // 右子树最大贡献
-
-		int current_max = node->val + left + right;	   // 当前节点作为拐点的路径和
-		maxSum			= max(maxSum, current_max);	   // 更新全局最大
-
-		return node->val + max(left, right);	// 返回单边路径给父节点
+		}
+		int l	= max(0, gain(node->left));
+		int r	= max(0, gain(node->right));
+		int res = node->val + l + r;
+		maxRes	= max(res, maxRes);
+		return node->val + max(l, r);
 	}
-
 	int maxPathSum(TreeNode *root) {
-		dfs(root);
-		return maxSum;
+		gain(root);
+		return maxRes;
 	}
 };
 // @lc code=end
-

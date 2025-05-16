@@ -7,34 +7,32 @@
 // @lc code=start
 class Solution {
 public:
-	/*
-		拓扑排序像是，靠这种依赖关系的，但是这个测试用例给的太恶心了，我本身想用一个并查集判断，感觉就是判断有没有环，先试试把
-		并查集通过44/54，一个有环的就不行了，实际上就是拓扑，从后往前的边，先统计入度，如果入度为0，加入队列
-		然后将该节点出队列，加入一个结果数组中去，最后判断这个结果数组的长度是否和边数相等
-		出队列后，所有与之相连的点入度都要-1，如果==0了，继续加入，直到加入不下去
-	*/
 	bool canFinish(int numCourses, vector<vector<int>> &prerequisites) {
+		vector<list<int>> graph(numCourses);
 		vector<int> indegree(numCourses, 0);
-		for(auto &vec : prerequisites) {
-			indegree[vec[0]]++;
+		// 用邻接表构建图，统计入度
+		for(auto &edge : prerequisites) {
+			int from = edge[1];
+			int to	 = edge[0];
+			graph[from].push_back(to);
+			indegree[to]++;
 		}
+		vector<int> res;
 		queue<int> que;
 		for(int i = 0; i < numCourses; i++) {
 			if(indegree[i] == 0) {
 				que.push(i);
 			}
 		}
-		vector<int> res;
 		while(!que.empty()) {
 			int cur = que.front();
-			que.pop();
 			res.push_back(cur);
-			for(auto &vec : prerequisites) {
-				if(vec[1] == cur) {
-					indegree[vec[0]]--;
-					if(indegree[vec[0]] == 0) {
-						que.push(vec[0]);
-					}
+			que.pop();
+			// 将cur相连的边的入度-1，如果减后的入度为0就加入队列
+			for(auto &to : graph[cur]) {
+				indegree[to]--;
+				if(indegree[to] == 0) {
+					que.push(to);
 				}
 			}
 		}

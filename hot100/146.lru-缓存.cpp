@@ -6,7 +6,7 @@
 
 // @lc code=start
 // !自己实现的
-/* struct dNode {
+struct dNode {
 	int key, value;
 	dNode *next;
 	dNode *prev;
@@ -68,8 +68,9 @@ public:
 			umap.erase(delKey);
 		}
 	}
-}; */
-class LRUCache {
+};
+// !使用list的迭代器实现的
+/* class LRUCache {
 public:
 	typedef pair<int, int> pli;
 	int capacity;
@@ -108,7 +109,46 @@ public:
 			map.erase(last.first);
 		}
 	}
-};
+} ;*/
+/* class LRUCache {
+private:
+	unordered_map<int, list<pair<int, int>>::iterator> umap;
+	int capacity;
+	list<pair<int, int>> list;
+
+public:
+	LRUCache(int capacity) {
+		this->capacity = capacity;
+	}
+	int get(int key) {
+		if(!umap.count(key)) {
+			return -1;
+		}
+		auto it = umap[key];
+		int val = it->second;
+		list.erase(it);
+		list.push_front({ key, val });
+		umap[key] = list.begin();
+		return val;
+	}
+	void put(int key, int value) {
+		// 如果umap中没有，直接添加进去，如果有的话要删了然后添加
+		if(!umap.count(key)) {
+			list.push_front({ key, value });
+		} else {
+			auto it = umap[key];
+			umap.erase(key);
+			int val = it->second;
+			list.erase(it);
+			list.push_front({ key, value });
+		}
+		umap[key] = list.begin();
+		if(list.size() > capacity) {
+			umap.erase(list.back().first);
+			list.pop_back();
+		}
+	}
+}; */
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache* obj = new LRUCache(capacity);
