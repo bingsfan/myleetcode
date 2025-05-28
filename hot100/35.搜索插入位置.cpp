@@ -8,13 +8,11 @@
 class Solution {
 public:
 	int searchInsert(vector<int> &nums, int target) {
-		int l = 0, r = nums.size();
-		// l和r其实就是结果的范围了，插入可以是元素的最后
-		// 应该要>=target的第一个位置
-		while(l < r) {
-			int m = l + (r - l) / 2;
+		int l = 0, r = nums.size() - 1;
+		while(l <= r) {
+			int m = (l + r) / 2;
 			if(nums[m] >= target) {
-				r = m;
+				r = (r == m) ? m - 1 : m;
 			} else {
 				l = m + 1;
 			}

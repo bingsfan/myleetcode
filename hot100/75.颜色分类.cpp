@@ -7,19 +7,20 @@
 // @lc code=start
 class Solution {
 public:
-	void sortColors(vector<int> &nums) {
-		int low = 0, cur = 0, high = nums.size() - 1;
-		while(cur <= high) {
+    void sortColors(vector<int>& nums) {
+		int lt = 0, gt = nums.size() - 1, cur = 0;
+		while(cur <= gt) {
 			if(nums[cur] == 0) {
-				swap(nums[low], nums[cur]);
-				low++, cur++;
-			} else if(nums[cur] == 1) {
-				cur++;
+				swap(nums[cur], nums[lt]);
+				cur++, lt++;
+			} else if(nums[cur] == 2) {
+				swap(nums[cur], nums[gt]);
+				gt--;
 			} else {
-				swap(nums[high], nums[cur]);
-				high--;
+				cur++;
 			}
 		}
+		return;
 	}
 };
 // @lc code=end

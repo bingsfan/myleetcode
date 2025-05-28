@@ -6,29 +6,27 @@
 
 // @lc code=start
 class MedianFinder {
-	// 先用排序数组实现，再用两个堆实现
-public:
-	priority_queue<int, vector<int>, greater<int>> minHeap;
-	priority_queue<int, vector<int>, less<int>> maxHeap;
+private:
+	priority_queue<int, vector<int>, less<int>> big;
+	priority_queue<int, vector<int>, greater<int>> small;
 
+public:
 	MedianFinder() {}
 
 	void addNum(int num) {
-		// 大堆要存较小的数，先存完在调整
-		maxHeap.push(num);
-		minHeap.push(maxHeap.top());
-		maxHeap.pop();
-		if(minHeap.size() > maxHeap.size()) {
-			maxHeap.push(minHeap.top());
-			minHeap.pop();
+		big.push(num);
+		small.push(big.top());
+		big.pop();
+		if(small.size() > big.size()) {
+			big.push(small.top());
+			small.pop();
 		}
 	}
-
 	double findMedian() {
-		if(maxHeap.size() != minHeap.size()) {
-			return maxHeap.top();
+		if(big.size() != small.size()) {
+			return big.top();
 		} else {
-			return (maxHeap.top() + minHeap.top()) / 2.0;
+			return (big.top() + small.top()) / 2.0;
 		}
 	}
 };

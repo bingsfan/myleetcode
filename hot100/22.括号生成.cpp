@@ -7,29 +7,25 @@
 // @lc code=start
 class Solution {
 public:
-	vector<string> res;
-	void traceback(int left, int right, int n, string &path) {
-		if(path.size() == n * 2) {
-			res.push_back(path);
-		}
-		if(left < n) {
-			path.push_back('(');
-			left++;
-			traceback(left, right, n, path);
-			left--;
-			path.pop_back();
-		}
-		if(right < left) {
-			path.push_back(')');
-			right++;
-			traceback(left, right, n, path);
-			right--;
-			path.pop_back();
-		}
-	}
 	vector<string> generateParenthesis(int n) {
+		vector<string> res;
 		string path;
-		traceback(0, 0, n, path);
+		function<void(int, int)> dfs = [&](int l, int r) {
+			if(path.size() == n * 2) {
+				res.push_back(path);
+			}
+			if(l < n) {
+				path.push_back('(');
+				dfs(l + 1, r);
+				path.pop_back();
+			}
+			if(r < l) {
+				path.push_back(')');
+				dfs(l, r + 1);
+				path.pop_back();
+			}
+		};
+		dfs(0, 0);
 		return res;
 	}
 };

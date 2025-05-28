@@ -7,21 +7,21 @@
 // @lc code=start
 class Solution {
 public:
-	vector<vector<int>> res;
-	vector<int> path;
-	void traceback77(int n, int k, int cur) {
-		if(path.size() == k) {
-			res.push_back(path);
-			return;
-		}
-		for(int i = cur; n - i + 1 + path.size() >= k; i++) {
-			path.push_back(i);
-			traceback77(n, k, i + 1);
-			path.pop_back();
-		}
-	}
 	vector<vector<int>> combine(int n, int k) {
-		traceback77(n, k, 1);
+		vector<vector<int>> res;
+		vector<int> path;
+		function<void(int)> dfs = [&](int startIndex) {
+			if(path.size() == k) {
+				res.push_back(path);
+				return;
+			}
+			for(int i = startIndex; n - i + 1 + path.size() >= k; i++) {
+				path.push_back(i);
+				dfs(i + 1);
+				path.pop_back();
+			}
+		};
+		dfs(1);
 		return res;
 	}
 };

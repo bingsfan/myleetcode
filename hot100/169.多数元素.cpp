@@ -7,18 +7,16 @@
 // @lc code=start
 class Solution {
 public:
-	int majorityElement(vector<int> &nums) {
-		unordered_map<int, int> umap;
+    int majorityElement(vector<int>& nums) {
+		int res = 0;
+		int cnt = 0;
 		for(auto &num : nums) {
-			umap[num]++;
-		}
-		int n = nums.size() / 2;
-		for(auto &pli : umap) {
-			if(pli.second > n) {
-				return pli.first;
+			if(cnt == 0) {
+				res = num;
 			}
+			cnt += res == num ? 1 : -1;
 		}
-		return -1;
+		return res;
 	}
 };
 // @lc code=end

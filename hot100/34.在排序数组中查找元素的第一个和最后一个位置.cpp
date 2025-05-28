@@ -7,80 +7,43 @@
 // @lc code=start
 class Solution {
 public:
-/* 	int lowerBound(vector<int> &nums, int target) {
-		// 如果找到了，还要继续向左找
-		int l = 0, r = nums.size();
-		while(l < r) {
-			int m = (r + l) / 2;
-			if(nums[m] >= target) {
-				// mid>=target,要继续向左边去找
-				r = m;
-			} else {
-				l = m + 1;
-			}
-		}
-		if(l == nums.size() || nums[l] != target) {
-			return -1;
-		}
-		return l;
-	}
-	int upBound(vector<int> &nums, int target) {
-		int l = 0, r = nums.size();
-		while(l < r) {
-			int m = (l + r) / 2;
-			if(nums[m] > target) {
-				r = m;
-			} else {
-				// 小于等于还要继续向右边去找
-				l = m + 1;
-			}
-		}
-		if(l == 0 || nums[l - 1] != target) {
-			return -1;
-		}
-		return l - 1;
-	} */
-/* 	vector<int> searchRange(vector<int> &nums, int target) {
-		int lb = lowerBound(nums, target);
-		int rb = upBound(nums, target);
-		return { lb, rb };
-	} */
-	int leftBorder(vector<int> &nums, int target) {
-		int l = 0, r = nums.size() - 1;
-		// 要在nums中找>=target的第一个位置
-		while(l <= r) {
-			int m = (l + r) / 2;
-			if(nums[m] >= target) {
-				r = (r == m) ? m - 1 : m;
-			} else {
-				l = m + 1;
-			}
-		}
-		if(l == nums.size() || nums[l] != target) {
-			return -1;
-		}
-		return l;
-	}
-	int rightBorder(vector<int> &nums, int target) {
-		int l = 0, r = nums.size() - 1;
-		// 要在nums中找>target的第一个位置
-		while(l <= r) {
-			int m = (l + r) / 2;
-			if(nums[m] > target) {
-				r = (r == m) ? m - 1 : m;
-			} else {
-				l = m + 1;
-			}
-		}
-		if(l == 0 || nums[l - 1] != target) {
-			return -1;
-		}
-		return l-1;
-	}
 	vector<int> searchRange(vector<int> &nums, int target) {
-		int lb = leftBorder(nums, target);
-		int rb = rightBorder(nums, target);
+		int n = nums.size();
+		int l = 0, r = n - 1;
+		auto leftBorder = [&]() {
+			l = 0, r = n - 1;
+			while(l <= r) {
+				int m = (l + r) / 2;
+				if(nums[m] >= target) {
+					r = (r == m) ? m - 1 : m;
+				} else {
+					l = m + 1;
+				}
+			}
+			if(l == n || nums[l] != target) {
+				return -1;
+			}
+			return l;
+		};
+		auto rightBorder = [&]() {
+			l = 0, r = n - 1;
+			while(l <= r) {
+				int m = (l + r) / 2;
+				if(nums[m] > target) {
+					r = (r == m) ? m - 1 : m;
+				} else {
+					l = m + 1;
+				}
+			}
+			if(r < 0 || nums[r] != target) {
+				return -1;
+			}
+			return r;
+		};
+		int lb = leftBorder();
+		int rb = rightBorder();
 		return { lb, rb };
 	}
 };
 // @lc code=end
+

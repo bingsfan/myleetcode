@@ -7,23 +7,25 @@
 // @lc code=start
 class Solution {
 public:
-	void nextPermutation(vector<int> &nums) {
+    void nextPermutation(vector<int>& nums) {
+		// 1、从后往前找第一个上升点
 		int n = nums.size();
-		int i = n - 2;
-		// Step 1: 找到第一个下降的位置 i，使得 nums[i] < nums[i+1]
-		while(i >= 0 && nums[i] >= nums[i + 1]) {
-			i--;
-		}
-		if(i >= 0) {
-			// Step 2: 找到第一个比 nums[i] 大的数，从右往左找
-			int j = n - 1;
-			while(nums[j] <= nums[i]) {
-				j--;
+		int pivot, j;
+		for(int i = n - 1; i > 0; i--) {
+			if(nums[i] > nums[i - 1]) {
+				pivot = i - 1;
+				break;
 			}
-			swap(nums[i], nums[j]);	   // 交换
 		}
-		// Step 3: 把 i+1 到末尾反转
-		reverse(nums.begin() + i + 1, nums.end());
+		for(int i = n - 1; i > 0; i--) {
+			if(nums[i] > nums[pivot]) {
+				j = i;
+				break;
+			}
+		}
+		swap(nums[pivot], nums[j]);
+		reverse(nums.begin() + pivot + 1, nums.end());
+		return;
 	}
 };
 // @lc code=end
